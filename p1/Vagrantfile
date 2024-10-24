@@ -1,0 +1,35 @@
+Vagrant.configure("2") do |config|
+
+  servers=[
+    {
+      :hostname => "ktashbaeS",
+      :box => "ubuntu/trusty64",
+      :network => "private_network",
+      :ip => "192.168.56.110",
+      :provider => "virtualbox",
+      :memory => 512,
+      :cpu => 1
+    },
+    {
+      :hostname => "ktashbaeSW",
+      :box => "ubuntu/trusty64",
+      :network => "private_network",
+      :ip => "192.168.56.111",
+      :provider => "virtualbox",
+      :memory => 512,
+      :cpu => 1
+    }
+  ]
+
+  servers.each do |machine|
+    config.vm.define machine[:hostname] do |node|
+      node.vm.box = machine[:box]
+      node.vm.hostname = machine[:hostname]
+      node.vm.network machine[:network], ip: machine[:ip]
+      node.vm.provider machine[:provider] do |v|
+        v.memory = machine[:memory]
+        v.cpus = machine[:cpu]
+      end
+    end
+  end
+end
