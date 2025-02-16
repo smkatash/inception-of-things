@@ -10,8 +10,8 @@ fi
 echo "K3s controller setup complete!"
 
 
-kubectl apply -f /vagrant/apps/app1.yaml
-kubectl apply -f /vagrant/apps/app2.yaml
-kubectl apply -f /vagrant/apps/app3.yaml
-kubectl apply -f /vagrant/apps/ingress.yaml
+kubectl apply -f /vagrant/confs/app1.yaml
+kubectl apply -f /vagrant/confs/app2.yaml
+kubectl apply -f /vagrant/confs/app3.yaml
+kubectl apply -f /vagrant/confs/ingress.yaml
 echo "Applications are ready!"
