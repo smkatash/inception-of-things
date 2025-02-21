@@ -25,11 +25,14 @@ GITLAB_EMAIL="kanykei42@duck.com"
 # helm repo update
 
 # helm install gitlab gitlab/gitlab \
-#   --namespace gitlab \
-#   --set global.hosts.domain=localhost \
-#   --set postgresql.install=false \
-#   --set global.edition=ce \
-#   --set certmanager-issuer.email=$GITLAB_EMAIL
+  # --namespace gitlab \
+  # --set global.hosts.domain=$GITLAB_URL \
+  # --set global.edition=ce \
+  # --set certmanager-issuer.email=$GITLAB_EMAIL \
+  # --set gitlab-webservice.default.resources.requests.cpu=500m \
+  # --set gitlab-webservice.default.resources.requests.memory=2Gi \
+  # --set gitlab-webservice.default.resources.limits.cpu=1 \
+  # --set gitlab-webservice.default.resources.limits.memory=4Gi
 
 helm upgrade gitlab gitlab/gitlab \
   --namespace gitlab \
@@ -42,6 +45,7 @@ helm upgrade gitlab gitlab/gitlab \
   --set gitlab-webservice.default.resources.limits.memory=4Gi
 
 kubectl wait --for=condition=ready pod --all --timeout=300s -n gitlab
+kubectl port-forward -n gitlab svc/gitlab-webservice-default 8181:8080 > /dev/null 2>&1 &
 
 sh setup_gitlab_repository.sh
 if [ $? -ne 0 ]; then
@@ -58,4 +62,3 @@ fi
 # sleep 2
 # argocd app set wil-playground --self-heal --auto-prune
 # kubectl port-forward -n dev svc/wil-playground 8888:8888 > /dev/null 2>&1 &
-kubectl port-forward -n gitlab svc/gitlab-webservice-default 8181:8080 > /dev/null 2>&1 &
