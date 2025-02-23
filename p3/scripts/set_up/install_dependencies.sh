@@ -3,7 +3,7 @@
 sudo apt-get update -y && sudo apt-get upgrade -y
 
 echo "Starting dependency installation..."
-cd dependencies/
+cd ../dependencies
 
 sh install_docker.sh
 if [ $? -ne 0 ]; then
